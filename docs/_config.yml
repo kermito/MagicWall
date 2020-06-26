@@ -22,8 +22,8 @@ title: MagicWall
 email: contact@arnaudtriolet.fr
 description: >- # this means to ignore newlines until "baseurl:"
   MagicWall official website. Get a band new background on every startup or when you want !
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/MagicWall" # the subpath of your site, e.g. /blog
+url: "https://kermito.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  kermito
 sass:
   sass_dir: _sass
