@@ -4,6 +4,15 @@
     .footer-center {
         text-align:center;
         color: #bbb;
+        a {
+            color: #bbb;
+            text-decoration: underline;
+            transition: 0.3s;
+            &:hover {
+                color: #1756a9;
+                transition: 0.3s;
+            }
+        }
         p {
             margin:0;
         }
