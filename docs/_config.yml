@@ -29,7 +29,7 @@ sass:
   sass_dir: _sass
   style: compressed
 # Build settings
-theme: jekyll-theme-minimal
+theme: minima
 # assets:
 #   compression: false
 #   prefix: '/assets'
@@ -45,14 +45,14 @@ theme: jekyll-theme-minimal
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
