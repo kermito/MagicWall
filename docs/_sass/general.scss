@@ -1,0 +1,48 @@
+h1, 
+h2, 
+h3, 
+h4, 
+h5 {
+    font-family: 'Montserrat', sans-serif;
+}
+h1 {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+h2 {
+    color: #1756a9;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn {
+    padding: 10px 20px;
+    display: inline-block;
+    border: 1px solid #0bcde6;
+    background: #0bcde6;
+    color: white;
+    border-radius:10px;
+    transition:0.3s;
+    vertical-align: middle;
+    i.fa {
+        font-size: 2em;
+        margin-right: 10px;
+        vertical-align: inherit;
+    }
+
+    &:hover {
+        background: white;
+        color: #0bcde6;
+        text-decoration: none;
+        transition:0.3s;
+    }
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -1,0 +1,60 @@
+{
+  "name": "magicwall",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "buildonly": "vue-cli-service build",
+    "pack": "electron-packager . --all --overwrite --icon=favicon.png --out=build",
+    "build": "npm run buildonly ; npm run pack",
+    "lint": "vue-cli-service lint",
+    "electron": "electron .",
+    "start": "vue-cli-service build ; electron ."
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-regular-svg-icons": "^5.13.1",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
+    "auto-launch": "^5.0.5",
+    "await-exec": "^0.1.2",
+    "axios": "^0.19.2",
+    "core-js": "^3.6.5",
+    "electron-store": "^5.2.0",
+    "vue": "^2.6.11",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-toast-notification": "0.0.3",
+    "wallpaper": "^4.4.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.4.1",
+    "@vue/cli-plugin-eslint": "^4.4.1",
+    "@vue/cli-service": "^4.4.1",
+    "babel-eslint": "^10.1.0",
+    "electron": "^9.0.5",
+    "electron-packager": "^14.2.1",
+    "electron-winstaller": "^4.0.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "update-electron-app": "^1.5.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
