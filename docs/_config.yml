@@ -29,7 +29,7 @@ sass:
   sass_dir: _sass
   style: compressed
 # Build settings
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
 # assets:
 #   compression: false
 #   prefix: '/assets'
