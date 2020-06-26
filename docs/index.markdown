@@ -5,7 +5,7 @@
 layout: home
 ---
 
-![Logo](assets/images/logo.png){: .logo}
+![Logo]({{ "/assets/images/logo.png" | prepend: site.baseurl }}){: .logo}
 # MagicWall
 <h2 id="subtitle">Make desktop great again !</h2>
 
