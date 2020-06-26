@@ -10,4 +10,4 @@ Created with ♥ by [kermito](https://github.com/kermito)
 
 ## Constributors
 
-* Matt
+* [Sound Matt](https://github.com/sound-matt)
