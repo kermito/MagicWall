@@ -18,7 +18,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "auto-launch": "^5.0.5",
     "await-exec": "^0.1.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "electron-store": "^5.2.0",
     "vue": "^2.6.11",
