@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu } = require('electron');
+const { app, BrowserWindow, Tray, Menu, powerMonitor } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const { ipcMain } = require('electron');
@@ -136,7 +136,7 @@ function createWindow() {
         width: 1270,
         height: 800,
         minWidth: 680,
-        icon: path.join(__dirname, 'dist/favicon.png'),
+        icon: path.join(__dirname, 'favicon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true
@@ -179,8 +179,7 @@ function createTray() {
             }
         }, // "role": system prepared action menu
     ]);
-    tray.setToolTip("Magic wall");
-    tray.setTitle("Magic wall"); // macOS only
+    tray.setToolTip("Magic Wall");
     tray.setContextMenu(menu);
 
     appGui.tray = tray;
@@ -266,6 +265,9 @@ app.once('ready', ev => {
     if (store.get("randomset")) {
         applyRandomBackground();
     }
+    powerMonitor.on('shutdown', () => {
+        app.quit();
+    });
 });
 
 app.on('window-all-closed', () => {
