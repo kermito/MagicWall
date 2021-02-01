@@ -109,21 +109,20 @@ function applyRandomBackground() {
     parameters.q = store.get("search");
     parameters.sorting = "random";
     axios.get(API_URL, {
-            params: parameters
-        })
-        .then(function (response) {
-            if (typeof response.data.data[0] != undefined) {
-                var item = response.data.data[0];
-                axios.get(item.path, {
-                    responseType: 'stream'
-                }).then(function (response) {
-                    var stream = response.data.pipe(file);
-                    stream.on('finish', function(){
-                        applyNewBackground(fpath);
-                    });;
+        params: parameters
+    }).then(function (response) {
+        if (typeof response.data.data[0] != undefined) {
+            var item = response.data.data[0];
+            axios.get(item.path, {
+                responseType: 'stream'
+            }).then(function (response) {
+                var stream = response.data.pipe(file);
+                stream.on('finish', function(){
+                    applyNewBackground(fpath);
                 });
-            }
-        });
+            });
+        }
+    });
 }
 
 function createWindow() {
@@ -146,7 +145,7 @@ function createWindow() {
     mainWindow.loadFile('dist/index.html');
     mainWindow.on("close", ev => {
         ev.sender.hide();
-        ev.preventDefault(); // prevent quit process
+        ev.preventDefault();
     });
 
     // Open the DevTools.
@@ -174,10 +173,10 @@ function createTray() {
         },
         { type: "separator" },
         {
-            label: "Close", click: () => {
+            label: "Exit MagicWall", click: () => {
                 app.quit();
             }
-        }, // "role": system prepared action menu
+        },
     ]);
     tray.setToolTip("Magic Wall");
     tray.setContextMenu(menu);
@@ -241,8 +240,7 @@ ipcMain.on('search_query', (event, arg) => {
     parameters.q = arg.query;
     axios.get(API_URL, {
         params: parameters
-    })
-    .then(function (response) {
+    }).then(function (response) {
         event.reply('search_result', response.data)
     });
 });
@@ -253,14 +251,12 @@ ipcMain.on("load_more", (event, arg) => {
     parameters.page = arg.page;
     axios.get(API_URL, {
         params: parameters
-    })
-    .then(function (response) {
+    }).then(function (response) {
         event.reply('more_result', response.data);
     });
 });
 
 app.once('ready', ev => {
-    // createWindow();
     createTray();
     if (store.get("randomset")) {
         applyRandomBackground();
