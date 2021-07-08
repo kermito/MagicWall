@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "buildonly": "vue-cli-service build",
-    "pack": "electron-packager . --all --overwrite --icon=favicon.png --out=build",
+    "pack": "electron-packager . --overwrite --icon=favicon.png --out=build --platform darwin",
     "build": "npm run buildonly ; npm run pack",
     "lint": "vue-cli-service lint",
     "electron": "electron .",
