@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kermito/MagicWall.git"
+  },
   "scripts": {
     "buildonly": "vue-cli-service build",
     "pack": "electron-packager . --overwrite --icon=favicon.png --out=build --platform darwin",
-    "build": "npm run buildonly ; npm run pack",
+    "build": "electron-builder build --mac --linux --win --publish never",
+    "deploy": "electron-builder build --mac --linux --win --publish always",
+    "help": "electron-builder build --help",
     "lint": "vue-cli-service lint",
     "electron": "electron .",
     "start": "vue-cli-service build ; electron ."
@@ -21,6 +27,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "electron-store": "^5.2.0",
+    "electron-updater": "^4.3.9",
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",
     "vue-toast-notification": "0.0.3",
@@ -32,6 +39,7 @@
     "@vue/cli-service": "^4.4.1",
     "babel-eslint": "^10.1.0",
     "electron": "^9.0.5",
+    "electron-builder": "^22.11.7",
     "electron-packager": "^14.2.1",
     "electron-winstaller": "^4.0.0",
     "eslint": "^6.7.2",

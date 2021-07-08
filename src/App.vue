@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <Search/>
+    <Update />
   </div>
 </template>
 
 <script>
-import Search from './components/Search.vue'
+import Search from './components/Search.vue';
+import Update from './components/Update.vue';
 
 export default {
   name: 'App',
   components: {
-    Search
+    Search,
+    Update
   }
 }
 </script>
@@ -26,7 +29,6 @@ export default {
 }
 body,
 html{
-  /* background: #313131; */
   background: white;
   padding: 0;
 }

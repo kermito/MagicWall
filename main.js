@@ -8,6 +8,7 @@ const os = require('os');
 const { exec } = require("child_process");
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch');
+const { autoUpdater } = require('electron-updater');
 
 const store = new Store();
 
@@ -152,8 +153,20 @@ function createWindow() {
         appGui.win = undefined;
     });
 
+    mainWindow.once('ready-to-show', () => {
+        autoUpdater.checkForUpdatesAndNotify();
+    });
+
+    autoUpdater.on('update-available', () => {
+        mainWindow.webContents.send('update_available');
+    });
+    
+    autoUpdater.on('update-downloaded', () => {
+        mainWindow.webContents.send('update_downloaded');
+    });
+
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     appGui.win = mainWindow;
     return mainWindow;
@@ -263,6 +276,14 @@ ipcMain.on("load_more", (event, arg) => {
     }).then(function (response) {
         event.reply('more_result', response.data);
     });
+});
+
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
 });
 
 app.once('ready', ev => {

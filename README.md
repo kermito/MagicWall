@@ -1,6 +1,6 @@
 # Magicwall
 
-## Details 🔎
+## 🔎 Details
 
 * Search backgrounds by keyword
 * Add on startup
@@ -10,9 +10,11 @@
 
 Work on Windows
 
+Work on Mac
+
 Work on linux desktop : xfce4, gnome, deepin
 
-## Usefull commands 🖥️
+## 🖥️ Usefull commands
 
 ### Project setup
 
@@ -51,7 +53,6 @@ npm run build
 npm run pack
 ```
 
-## TODO ☑️
+## ☑️ TODO
 
 * Test on i3
-* Test on Mac
