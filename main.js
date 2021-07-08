@@ -21,7 +21,7 @@ const autoLauncher = new AutoLaunch({
 const appGui = {};
 
 app.allowRendererProcessReuse = true;
-
+app.dock.hide();
 function getDefaultParameters() {
     return {
         "apiKey": getApiKey(),
@@ -135,17 +135,21 @@ function createWindow() {
         width: 1270,
         height: 800,
         minWidth: 680,
+        skipTaskbar: true,
         icon: path.join(__dirname, 'favicon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true
         }
     });
+    mainWindow.setSkipTaskbar(true);
     mainWindow.setMenu(null);
     mainWindow.loadFile('dist/index.html');
     mainWindow.on("close", ev => {
         ev.sender.hide();
         ev.preventDefault();
+        mainWindow.destroy();
+        appGui.win = undefined;
     });
 
     // Open the DevTools.
@@ -175,12 +179,17 @@ function createTray() {
         {
             label: "Exit MagicWall", click: () => {
                 app.quit();
+                if (appGui.win !== undefined) {
+                    appGui.win.destroy();
+                }
+                if (appGui.tray !== undefined) {
+                    appGui.tray.destroy();
+                }
             }
         },
     ]);
     tray.setToolTip("Magic Wall");
     tray.setContextMenu(menu);
-
     appGui.tray = tray;
     return tray;
 }
@@ -263,12 +272,24 @@ app.once('ready', ev => {
     }
     powerMonitor.on('shutdown', () => {
         app.quit();
+        if (appGui.win !== undefined) {
+            appGui.win.destroy();
+        }
+        if (appGui.tray !== undefined) {
+            appGui.tray.destroy();
+        }
     });
 });
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
+        if (appGui.win !== undefined) {
+            appGui.win.destroy();
+        }
+        if (appGui.tray !== undefined) {
+            appGui.tray.destroy();
+        }
     }
 });
 
