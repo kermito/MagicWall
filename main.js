@@ -22,7 +22,9 @@ const autoLauncher = new AutoLaunch({
 const appGui = {};
 
 app.allowRendererProcessReuse = true;
-app.dock.hide();
+if (os.platform() == "darwin") {
+    app.dock.hide();
+}
 function getDefaultParameters() {
     return {
         "apiKey": getApiKey(),
@@ -140,12 +142,13 @@ function createWindow() {
         icon: path.join(__dirname, 'favicon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: true
+            nodeIntegration: true,
+            // webSecurity: false
         }
     });
     mainWindow.setSkipTaskbar(true);
     mainWindow.setMenu(null);
-    mainWindow.loadFile('dist/index.html');
+    mainWindow.loadFile( path.join(__dirname, 'vuedist/index.html') );
     mainWindow.on("close", ev => {
         ev.sender.hide();
         ev.preventDefault();
@@ -166,7 +169,7 @@ function createWindow() {
     });
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     appGui.win = mainWindow;
     return mainWindow;
