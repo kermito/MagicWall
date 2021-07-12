@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, powerMonitor } = require('electron');
+const { app, BrowserWindow, Tray, Menu, powerMonitor, Notification } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const { ipcMain } = require('electron');
@@ -20,6 +20,12 @@ const autoLauncher = new AutoLaunch({
 });
 
 const appGui = {};
+
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true;
+  }
+});
 
 app.allowRendererProcessReuse = true;
 if (os.platform() == "darwin") {
@@ -156,20 +162,10 @@ function createWindow() {
         appGui.win = undefined;
     });
 
-    mainWindow.once('ready-to-show', () => {
-        autoUpdater.checkForUpdatesAndNotify();
-    });
-
-    autoUpdater.on('update-available', () => {
-        mainWindow.webContents.send('update_available');
-    });
     
-    autoUpdater.on('update-downloaded', () => {
-        mainWindow.webContents.send('update_downloaded');
-    });
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     appGui.win = mainWindow;
     return mainWindow;
@@ -289,13 +285,26 @@ ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
 
+autoUpdater.on('update-available', () => {
+    new Notification({ title: "New update available", body: "Open the app to install" }).show()
+    appGui.win.show();
+    appGui.win.webContents.send('update_available');
+});
+
+autoUpdater.on('update-downloaded', () => {
+    appGui.win.show();
+    appGui.win.webContents.send('update_downloaded');
+});
+
 app.once('ready', ev => {
     createTray();
     if (store.get("randomset")) {
         applyRandomBackground();
     }
+    autoUpdater.checkForUpdatesAndNotify();
     powerMonitor.on('shutdown', () => {
         app.quit();
+        console.log("shut")
         if (appGui.win !== undefined) {
             appGui.win.destroy();
         }

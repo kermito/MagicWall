@@ -1,6 +1,6 @@
 {
   "name": "magicwall",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "private": true,
   "main": "main.js",
   "repository": {
@@ -10,6 +10,9 @@
   "scripts": {
     "buildonly": "vue-cli-service build",
     "pack": "electron-packager . --overwrite --icon=favicon.png --out=build --platform darwin",
+    "build:linux": "electron-builder build --linux --publish never",
+    "build:win": "electron-builder build -win --publish never",
+    "build:mac": "electron-builder build --mac --publish never",
     "build": "electron-builder build --mac --linux --win --publish never",
     "deploy": "electron-builder build --mac --linux --win --publish always",
     "help": "electron-builder build --help",
