@@ -12,7 +12,7 @@ Work on Windows
 
 Work on Mac
 
-Work on linux desktop : xfce4, gnome, deepin
+Work on linux desktop : xfce4, gnome, deepin, i3
 
 ## 🖥️ Usefull commands
 
@@ -55,4 +55,4 @@ npm run pack
 
 ## ☑️ TODO
 
-* Test on i3
+* Finalize auto-update
