@@ -232,9 +232,7 @@ function sleep(milliseconds) {
 async function waitInternetConnection() {
     var retry = 0;
     while (retry < 60) {
-        console.log("try number "+retry);
         let test = await syncInternetAvailable();
-        console.log("test is" + test);
         if (test) {
             return true;
         } else {
@@ -380,11 +378,6 @@ async function startApp() {
     app.on('activate', () => {
         createWindow();
     });
-
-
-
-    
-
 }
 
 startApp();

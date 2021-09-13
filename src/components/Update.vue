@@ -24,7 +24,7 @@ export default {
         window.ipcRenderer.send('app_version');
         
         window.ipcRenderer.on('app_version', (event, arg) => {
-        window.ipcRenderer.removeAllListeners('app_version');
+            window.ipcRenderer.removeAllListeners('app_version');
             version.innerText = 'Version ' + arg.version;
         });
         

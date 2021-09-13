@@ -1,6 +1,6 @@
 {
   "name": "magicwall",
-  "version": "21.09.13",
+  "version": "0.2.1",
   "private": true,
   "main": "main.js",
   "repository": {
@@ -11,7 +11,7 @@
     "buildonly": "vue-cli-service build",
     "pack": "electron-packager . --overwrite --icon=favicon.png --out=build --platform darwin",
     "build:linux": "electron-builder build --linux --publish never",
-    "build:win": "electron-builder build -win --publish never",
+    "build:win": "electron-builder build --win --publish never",
     "build:mac": "electron-builder build --mac --publish never",
     "build": "electron-builder build --linux --win --publish never",
     "deploy": "electron-builder build --linux --win --publish always",
@@ -32,7 +32,6 @@
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.9",
     "internet-available": "^1.0.0",
-    "is-online": "^9.0.1",
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",
     "vue-toast-notification": "0.0.3",
