@@ -5,6 +5,7 @@ node_modules
 
 # Build config
 electron-builder.yml
+dev-app-update.yml
 
 # local env files
 .env.local

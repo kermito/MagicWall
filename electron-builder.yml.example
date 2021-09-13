@@ -1,0 +1,6 @@
+appId: com.arnaudtriolet.MagicWall
+publish:
+  provider: github
+  token: <TOKEN>
+
+  
