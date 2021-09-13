@@ -9,7 +9,7 @@ const { exec } = require("child_process");
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch');
 const { autoUpdater } = require('electron-updater');
-
+const internetAvailable = require("internet-available");
 const store = new Store();
 
 const API_KEY = store.get("api_key");
@@ -162,10 +162,8 @@ function createWindow() {
         appGui.win = undefined;
     });
 
-    
-
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     appGui.win = mainWindow;
     return mainWindow;
@@ -204,6 +202,47 @@ function createTray() {
     tray.setContextMenu(menu);
     appGui.tray = tray;
     return tray;
+}
+
+function syncInternetAvailable() {
+    return new Promise((resolve, reject) => {
+        internetAvailable({
+            timeout: 2000,
+            retry: 60
+        }).then(() => {
+            resolve(true);
+        }).catch((err) => {
+            resolve(false);
+            if (err) {
+                reject(err);
+            }
+        });
+    })
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
+
+async function waitInternetConnection() {
+    var retry = 0;
+    while (retry < 60) {
+        console.log("try number "+retry);
+        let test = await syncInternetAvailable();
+        console.log("test is" + test);
+        if (test) {
+            return true;
+        } else {
+            retry++;
+            sleep(2000);
+        }
+    }
+    return false;
 }
 
 ipcMain.on('update_randomset', (event, data) => {
@@ -296,36 +335,56 @@ autoUpdater.on('update-downloaded', () => {
     appGui.win.webContents.send('update_downloaded');
 });
 
-app.once('ready', ev => {
-    createTray();
-    if (store.get("randomset")) {
-        applyRandomBackground();
-    }
-    autoUpdater.checkForUpdatesAndNotify();
-    powerMonitor.on('shutdown', () => {
-        app.quit();
-        console.log("shut")
-        if (appGui.win !== undefined) {
-            appGui.win.destroy();
-        }
-        if (appGui.tray !== undefined) {
-            appGui.tray.destroy();
+
+async function startApp() {
+    // Starting app
+    app.once('ready', async ev => {
+        let isInternetReady = await waitInternetConnection();
+        console.log(isInternetReady)
+        if ( isInternetReady ) {
+            console.log("Internet ready");
+            createTray();
+            if (store.get("randomset")) {
+                applyRandomBackground();
+            }
+            autoUpdater.checkForUpdatesAndNotify();
+            powerMonitor.on('shutdown', () => {
+                app.quit();
+
+                if (appGui.win !== undefined) {
+                    appGui.win.destroy();
+                }
+                
+                if (appGui.tray !== undefined) {
+                    appGui.tray.destroy();
+                }
+            });
+        } else {
+            console.error("ERROR : Internet connection not present");
+            app.quit();
         }
     });
-});
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-        if (appGui.win !== undefined) {
-            appGui.win.destroy();
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit();
+            if (appGui.win !== undefined) {
+                appGui.win.destroy();
+            }
+            if (appGui.tray !== undefined) {
+                appGui.tray.destroy();
+            }
         }
-        if (appGui.tray !== undefined) {
-            appGui.tray.destroy();
-        }
-    }
-});
+    });
 
-app.on('activate', () => {
-    createWindow();
-});
+    app.on('activate', () => {
+        createWindow();
+    });
+
+
+
+    
+
+}
+
+startApp();
