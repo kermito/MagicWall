@@ -122,15 +122,19 @@ function applyRandomBackground() {
     }).then(function (response) {
         if (typeof response.data.data[0] != undefined) {
             var item = response.data.data[0];
-            axios.get(item.path, {
-                responseType: 'stream'
-            }).then(function (response) {
-                var stream = response.data.pipe(file);
-                stream.on('finish', function(){
-                    applyNewBackground(fpath);
+            if (item !== undefined) {
+                axios.get(item.path, {
+                    responseType: 'stream'
+                }).then(function (response) {
+                    var stream = response.data.pipe(file);
+                    stream.on('finish', function(){
+                        applyNewBackground(fpath);
+                    });
                 });
-            });
+            }
         }
+    }).catch(function(err) {
+        console.error(err);
     });
 }
 
@@ -166,6 +170,7 @@ function createWindow() {
     // mainWindow.webContents.openDevTools();
 
     appGui.win = mainWindow;
+
     return mainWindow;
 }
 
@@ -323,24 +328,28 @@ ipcMain.on('restart_app', () => {
 });
 
 autoUpdater.on('update-available', function() {
-    new Notification({ title: "New update available", body: "Open the app to install" }).show()
-    
-    if (appGui.win !== undefined) {
-        createWindow();
-    }
+    new Notification({ 
+        title: "New update available", 
+        body: "Open the app to install" 
+    }).show()
 
-    appGui.win.show();
-    appGui.win.webContents.send('update_available');
+    var windows = createWindow();
+    sleep(2000);
+
+    windows.webContents.once('dom-ready', () => {
+        windows.webContents.send('update_available');
+    });
 });
 
 autoUpdater.on('update-downloaded', function() {
-        
     if (appGui.win !== undefined) {
         createWindow();
+        sleep(2000);
     }
 
-    appGui.win.show();
-    appGui.win.webContents.send('update_downloaded');
+    appGui.win.webContents.once('dom-ready', () => {
+        appGui.win.webContents.send('update_available', true);
+    });
 });
 
 

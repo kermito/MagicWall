@@ -20,7 +20,7 @@ export default {
         var message = document.getElementById('message');
         var restartButton = document.getElementById('restart-button');
         var version = document.getElementById('version');
-
+        
         window.ipcRenderer.send('app_version');
         
         window.ipcRenderer.on('app_version', (event, arg) => {
@@ -52,6 +52,22 @@ export default {
 }
 </script>
 <style>
+#notificationUpdate {
+    position: fixed;
+    left: 10%;
+    right: 10%;
+    background: #eaeaea;
+    padding: 20px;
+}
+
+button {
+    color: #fff;
+    background: #646464;
+    border: none;
+    padding: 10px 20px;
+    transition:0.3s;
+}
+
 #notification {
   position: fixed;
   bottom: 20px;
