@@ -14,7 +14,7 @@
 
         <div class="config">
             <label for="resolution">
-                Resolution of background
+                Resolution of backgrounds
             </label>
             <input type="text" name="resolution" id="resolution" v-model="resolution" v-on:change="customResolution()">
         </div>
