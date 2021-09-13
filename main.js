@@ -145,7 +145,7 @@ function createWindow() {
         height: 800,
         minWidth: 680,
         skipTaskbar: true,
-        icon: path.join(__dirname, 'favicon.png'),
+        icon: path.join(__dirname, 'icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
@@ -322,13 +322,23 @@ ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
 
-autoUpdater.on('update-available', () => {
+autoUpdater.on('update-available', function() {
     new Notification({ title: "New update available", body: "Open the app to install" }).show()
+    
+    if (appGui.win !== undefined) {
+        createWindow();
+    }
+
     appGui.win.show();
     appGui.win.webContents.send('update_available');
 });
 
-autoUpdater.on('update-downloaded', () => {
+autoUpdater.on('update-downloaded', function() {
+        
+    if (appGui.win !== undefined) {
+        createWindow();
+    }
+
     appGui.win.show();
     appGui.win.webContents.send('update_downloaded');
 });
