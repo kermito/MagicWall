@@ -1,4 +1,4 @@
-module.exports = function(version, hash, size) {
+function getConfigString(version, hash, size) {
     let date = new Date().toISOString();
     return `version: ${version}
 files:

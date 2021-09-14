@@ -1,6 +1,6 @@
 {
   "name": "magicwall",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "main": "main.js",
   "repository": {
@@ -13,9 +13,10 @@
     "build:linux": "electron-builder build --linux --publish never",
     "build:win": "electron-builder build --win --publish never",
     "build:mac": "electron-builder build --mac --publish never",
-    "build": "electron-builder build --linux --win --publish never",
-    "latest:generate" : "node generate-latest-file.js",
-    "deploy": "electron-builder build --linux --win --publish always ; npm run latest:generate",
+    "latest:generate": "node generate-latest-file.js",
+    "latest:upload": "node generate-latest-file.js --upload",
+    "build": "electron-builder build --linux --win --publish never ; npm run latest:generate",
+    "deploy": "electron-builder build --linux --win --publish always ; npm run latest:upload",
     "help": "electron-builder build --help",
     "lint": "vue-cli-service lint",
     "electron": "electron .",
@@ -36,7 +37,8 @@
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",
     "vue-toast-notification": "0.0.3",
-    "wallpaper": "^4.4.1"
+    "wallpaper": "^4.4.1",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.1",
