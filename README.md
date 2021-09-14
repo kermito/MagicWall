@@ -56,3 +56,4 @@ npm run pack
 ## ☑️ TODO
 
 * Better update message
+* Provide tray closing when closing main window on Windows
