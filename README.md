@@ -55,4 +55,4 @@ npm run pack
 
 ## ☑️ TODO
 
-* Finalize auto-update
+* Better update message

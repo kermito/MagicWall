@@ -1,6 +1,6 @@
 {
   "name": "magicwall",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": true,
   "main": "main.js",
   "repository": {
@@ -23,6 +23,7 @@
     "start": "vue-cli-service build ; electron ."
   },
   "dependencies": {
+    "@actions/github": "^5.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-regular-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
@@ -33,7 +34,9 @@
     "core-js": "^3.6.5",
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.9",
+    "i": "^0.3.6",
     "internet-available": "^1.0.0",
+    "npm": "^7.23.0",
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",
     "vue-toast-notification": "0.0.3",

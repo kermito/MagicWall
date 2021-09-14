@@ -4,6 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const request  = require('request');
 const YAML = require("yaml");
+const github = require('@actions/github');
 
 // Functions
 const getLinuxConfigString = require('./generator/latest-linux-yml');
@@ -14,7 +15,7 @@ const args = process.argv;
 const pjson = require('./package.json');
 const version = pjson.version;
 const hasToUpload = (args.indexOf("--upload") !== -1);
-var uploadConfig = {};
+let uploadConfig = {};
 if (hasToUpload) {
     const uploadConfigFile = fs.readFileSync(
         path.resolve(
@@ -101,13 +102,35 @@ async function generateLatestWin() {
     });
 }
 
-function uploadToRealese(filePath, assetName) {
-    return new Promise((resolve, reject) => {
+function getRealeseId() {
+    return new Promise(async (resolve, reject) => {
         try {
-            assetName = encodeURIComponent(assetName);
-            var stats = fs.statSync(filePath);
-            var uploadUrl = `https://uploads.github.com/repos/${uploadConfig.owner}/${uploadConfig.repo}/releases/${version}/assets?name=${assetName}`
-            var options = {
+            const gh = new github.getOctokit(uploadConfig.token);
+            let releases = await gh.rest.repos.listReleases({
+                owner: uploadConfig.owner,
+                repo: uploadConfig.repo
+            });
+            for (let i = 0; i < releases.data.length; i++) {
+                const rel = releases.data[i];
+                if (rel.name == version) {
+                    resolve(rel.id)
+                }
+            }
+            reject(undefined);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+function uploadToRealese(filePath, assetName) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // assetName = encodeURIComponent(assetName);
+            const stats = fs.statSync(filePath);
+            const releaseId = await getRealeseId();
+            const uploadUrl = `https://uploads.github.com/repos/${uploadConfig.owner}/${uploadConfig.repo}/releases/${releaseId}/assets?name=${assetName}`
+            const options = {
                 url: uploadUrl,
                 port: 443,
                 auth: {
@@ -132,9 +155,9 @@ function uploadToRealese(filePath, assetName) {
                         reject(err);
                     }
                     if (res.statusCode != 201) {
-                        console.log(res.statusCode);
+                        resolve(false);
                     }
-                    resolve(body);  
+                    resolve(true);
                 })
             );
         } catch (error) {
@@ -150,7 +173,11 @@ async function main() {
         console.log(lin)
         if (hasToUpload) {
             const uploadLin = await uploadToRealese(lin, "latest-linux.yml");
-            console.log(uploadLin.statusCode);
+            if (uploadLin === true) {
+                console.log("Uploaded with success !");
+            } else {
+                console.error("Upload has failed...");
+            }
         }
     } catch (error) {
         console.error(error);
@@ -162,7 +189,11 @@ async function main() {
         console.log(win)
         if (hasToUpload) {
             const uploadWin = await uploadToRealese(win, "latest.yml");
-            console.log(uploadWin.statusCode);
+            if (uploadWin === true) {
+                console.log("Uploaded with success !");
+            } else {
+                console.error("Upload has failed...");
+            }
         }
     } catch (error) {
         console.error(error);
