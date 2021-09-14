@@ -55,5 +55,8 @@ npm run pack
 
 ## ☑️ TODO
 
+* Clean unused files
 * Better update message
 * Provide tray closing when closing main window on Windows
+* Dark mode
+* Test update on linux
